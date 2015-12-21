@@ -30,7 +30,7 @@ exports.searchFichas = function(searchText, size, page) {
 	qryObj = {
 		"size": totalRegs,
 		"from": initial,
-		"_source": ["catalogoEspeciesId", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "highlight"],
+		"_source": ["catalogoEspeciesId", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "highlight"],
 		"query": {
 			"bool": {
 				"must": [
@@ -172,5 +172,43 @@ exports.getTotalFichas = function(searchText, size, page) {
 	};
 
 	mySearchCall = elasticSearchClient.count('biodiversity', 'catalog', qryObj);
+	return mySearchCall;
+};
+
+// Search registers
+exports.getListFichas = function(size, page) {
+	var initial = 0;
+	var totalRegs = 40;
+	if((typeof size !== 'undefined')) {
+		totalRegs = size;
+	}
+	if((typeof page !== 'undefined')) {
+		initial = (page-1)*totalRegs;
+	}
+	qryObj = {
+		"size": totalRegs,
+		"from": initial,
+		"_source": ["catalogoEspeciesId", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas"],
+		"query": {
+			"bool": {
+				"must": [
+					{
+						"match_all": {}
+					}
+				],
+				"filter": [
+					{
+						"term": {
+							"verificacion.estadoId": {
+								"value": "2"
+							}
+						}
+					}
+				]
+			}
+		}
+	};
+
+	mySearchCall = elasticSearchClient.search('biodiversity', 'catalog', qryObj);
 	return mySearchCall;
 };

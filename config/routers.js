@@ -33,6 +33,10 @@ module.exports = function(parent, options) {
 			if (~['name', 'prefix', 'engine', 'before'].indexOf(key)) continue;
 			// route exports
 			switch (key) {
+				case 'listFichas':
+					method = 'get';
+					path = '/api/' + name;
+					break;
 				case 'getFichaDetailsOrSearchFichas':
 					method = 'get';
 					path = '/api/' + name + '/:' + '_fichaid';

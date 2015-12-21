@@ -22,3 +22,10 @@ exports.getCountFichas =  function(req, res) {
 		res.jsonp(JSON.parse(data).count);
 	});
 };
+
+exports.listFichas = function(req, res) {
+	occurrences = occurrencesES.getListFichas(req.query.size, req.query.page);
+	occurrences.exec(function(err, data){
+		res.jsonp(JSON.parse(data).hits);
+	});
+};
