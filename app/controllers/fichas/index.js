@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 exports.getFichaDetailsOrSearchFichas = function(req, res) {
 	if(req.params._fichaid === "search") {
-		occurrences = occurrencesES.searchFichas(req.query.q, req.query.size, req.query.page);
+		occurrences = occurrencesES.searchFichas(req.query.q, req.query.pagesize, req.query.page, req.query.order, req.query.sort);
 	} else {
 		occurrences = occurrencesES.getFicha(req.params._fichaid);
 	}

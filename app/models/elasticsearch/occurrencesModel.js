@@ -18,14 +18,24 @@ exports.getFicha = function(fichaId) {
 };
 
 // Search registers
-exports.searchFichas = function(searchText, size, page) {
+exports.searchFichas = function(searchText, size, page, order, sort) {
 	var initial = 0;
 	var totalRegs = 20;
+	var sortType = null;
+	var direction = 'asc';
 	if((typeof size !== 'undefined')) {
 		totalRegs = size;
 	}
 	if((typeof page !== 'undefined')) {
 		initial = (page-1)*totalRegs;
+	}
+	if((typeof sort !== 'undefined')) {
+		sortType = sort;
+	}
+	if((typeof order !== 'undefined')) {
+		if(order === 'desc') {
+			direction = 'desc';
+		}
 	}
 	qryObj = {
 		"size": totalRegs,
@@ -150,6 +160,12 @@ exports.searchFichas = function(searchText, size, page) {
 			}
 		}
 	};
+
+	if(sortType !== null) {
+		sortType = sortType+'.untouched';
+		qryObj.sort = {};
+		qryObj.sort[sortType] = direction;
+	}
 
 	mySearchCall = elasticSearchClient.search('biodiversity', 'catalog', qryObj);
 	return mySearchCall;
