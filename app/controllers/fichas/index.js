@@ -4,6 +4,8 @@ var _ = require('underscore');
 exports.getFichaDetailsOrSearchFichas = function(req, res) {
 	if(req.params._fichaid === "search") {
 		occurrences = occurrencesES.searchFichas(req.query.q, req.query.pagesize, req.query.page, req.query.order, req.query.sort);
+	} else if(req.params._fichaid === "random") {
+		occurrences = occurrencesES.getRandomFichas(req.query.pagesize, req.query.page);
 	} else {
 		occurrences = occurrencesES.getFicha(req.params._fichaid);
 	}
@@ -24,7 +26,8 @@ exports.getCountFichas =  function(req, res) {
 };
 
 exports.listFichas = function(req, res) {
-	occurrences = occurrencesES.getListFichas(req.query.size, req.query.page);
+	console.log("sooopas");
+	occurrences = occurrencesES.getListFichas(req.query.pagesize, req.query.page);
 	occurrences.exec(function(err, data){
 		res.jsonp(JSON.parse(data).hits);
 	});
