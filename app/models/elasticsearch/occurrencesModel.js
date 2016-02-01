@@ -41,7 +41,7 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 		qryObj = {
 			"size": totalRegs,
 			"from": initial,
-			"_source": ["catalogoEspeciesId", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "highlight"],
+			"_source": ["catalogoEspeciesId", "taxonNombre", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "highlight"],
 			"query": {
 				"bool": {
 					"must": [
@@ -124,51 +124,51 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 			},
 			"highlight" : {
 				"fields": {
-					"taxonNombre": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"taxonCompleto": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"autor": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"verificacion.nombre": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"citacion.documentoTitulo": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"citacion.autor": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"citacion.publicador": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"listaNombresComunes": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"distribucionGeografica.departamentos": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"distribucionGeografica.regionesNaturales": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"distribucionGeografica.corporacionesAutonomasRegionales": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"distribucionGeografica.organizaciones": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.estadoDeAmenazaSegunCategoriaUICNColombia": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.estadoDeAmenazaSegunCategoriaUICNMundo": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.distribucionGeograficaEnColombia": {"fragment_size" : 100, "number_of_fragments" : 3},
-					"atributos.distribucionGeograficaEnMundo": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.distribucionAltitudinal": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.comportamiento": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.reproduccion": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.estadoActualPoblacion": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.estadoCITES": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.vocalizaciones": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.etimologiaNombreCientifico": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.habitat": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.habito": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.alimentacion": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributo.impactos": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributo.informacionAlerta": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.informacionTipos": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.informacionUsos": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.invasora": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.mecanismosControl": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.origen": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.factoresAmenaza": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.medidasConservacion": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.descripcionInvasion": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.descripcionGeneral": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.descripcionTaxonomica": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.ecologia": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.ecosistema": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.clavesTaxonomicas": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.creditosEspecificos": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.regionesNaturales": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.registrosBiologicos": {"fragment_size": 100, "number_of_fragments" : 3},
-					"atributos.sinonimos": {"fragment_size": 100, "number_of_fragments" : 3}
+					"taxonNombre": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"taxonCompleto": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"autor": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"verificacion.nombre": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"citacion.documentoTitulo": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"citacion.autor": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"citacion.publicador": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"listaNombresComunes": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"distribucionGeografica.departamentos": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"distribucionGeografica.regionesNaturales": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"distribucionGeografica.corporacionesAutonomasRegionales": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"distribucionGeografica.organizaciones": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.estadoDeAmenazaSegunCategoriaUICNColombia": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.estadoDeAmenazaSegunCategoriaUICNMundo": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.distribucionGeograficaEnColombia": {"fragment_size" : 300, "number_of_fragments" : 3},
+					"atributos.distribucionGeograficaEnMundo": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.distribucionAltitudinal": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.comportamiento": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.reproduccion": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.estadoActualPoblacion": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.estadoCITES": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.vocalizaciones": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.etimologiaNombreCientifico": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.habitat": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.habito": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.alimentacion": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributo.impactos": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributo.informacionAlerta": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.informacionTipos": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.informacionUsos": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.invasora": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.mecanismosControl": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.origen": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.factoresAmenaza": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.medidasConservacion": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.descripcionInvasion": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.descripcionGeneral": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.descripcionTaxonomica": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.ecologia": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.ecosistema": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.clavesTaxonomicas": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.creditosEspecificos": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.regionesNaturales": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.registrosBiologicos": {"fragment_size": 300, "number_of_fragments" : 3},
+					"atributos.sinonimos": {"fragment_size": 300, "number_of_fragments" : 3}
 				}
 			}
 		};
@@ -176,7 +176,7 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 		qryObj = {
 			"size": totalRegs,
 			"from": initial,
-			"_source": ["catalogoEspeciesId", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas"],
+			"_source": ["catalogoEspeciesId", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase"],
 			"query": {
 				"bool": {
 					"must": [
@@ -261,7 +261,7 @@ exports.getListFichas = function(size, page) {
 	qryObj = {
 		"size": totalRegs,
 		"from": initial,
-		"_source": ["catalogoEspeciesId", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas"],
+		"_source": ["catalogoEspeciesId", "autor", "taxonNombre", "taxonCompleto", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase"],
 		"query": {
 			"bool": {
 				"must": [
@@ -322,10 +322,17 @@ exports.getRandomFichas = function(size, page) {
 		"_source": [
 			"catalogoEspeciesId",
 			"taxonNombre",
+			"autor",
 			"taxonCompleto",
+			"atributos.descripcionGeneral",
+			"atributos.descripcionTaxonomica",
+			"atributos.habitat",
 			"listaNombresComunes",
 			"imagenes",
-			"imagenesExternas"
+			"imagenesExternas",
+			"taxonomia.reino",
+			"taxonomia.filo",
+			"taxonomia.clase"
 		],
 		"query": {
 			"bool": {

@@ -4,6 +4,7 @@ var morgan  = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var path = require('path');
+var cors = require('cors');
 
 module.exports = function(parent) {
 	var oneMonth = 2592000;
@@ -11,6 +12,7 @@ module.exports = function(parent) {
 	parent.set('port', process.env.PORT || 4000);
 	parent.set('view engine', 'jade');
 	parent.set('jsonp callback', true );
+	parent.use(cors());
 	parent.use(compress());
 	parent.use(morgan('dev'));
 	parent.use(bodyParser.urlencoded({
