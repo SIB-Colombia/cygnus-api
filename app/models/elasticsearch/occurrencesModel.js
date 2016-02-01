@@ -41,7 +41,7 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 		qryObj = {
 			"size": totalRegs,
 			"from": initial,
-			"_source": ["catalogoEspeciesId", "taxonNombre", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "highlight"],
+			"_source": ["catalogoEspeciesId", "taxonNombre", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "highlight", "colecciones"],
 			"query": {
 				"bool": {
 					"must": [
@@ -93,7 +93,8 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 									"atributos.creditosEspecificos",
 									"atributos.regionesNaturales",
 									"atributos.registrosBiologicos",
-									"atributos.sinonimos"
+									"atributos.sinonimos",
+									"colecciones.tipo"
 								],
 								"query": searchText,
 								"use_dis_max": true
@@ -168,7 +169,8 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 					"atributos.creditosEspecificos": {"fragment_size": 300, "number_of_fragments" : 3},
 					"atributos.regionesNaturales": {"fragment_size": 300, "number_of_fragments" : 3},
 					"atributos.registrosBiologicos": {"fragment_size": 300, "number_of_fragments" : 3},
-					"atributos.sinonimos": {"fragment_size": 300, "number_of_fragments" : 3}
+					"atributos.sinonimos": {"fragment_size": 300, "number_of_fragments" : 3},
+					"colecciones.tipo": {"fragment_size": 300, "number_of_fragments" : 3}
 				}
 			}
 		};
@@ -176,7 +178,7 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 		qryObj = {
 			"size": totalRegs,
 			"from": initial,
-			"_source": ["catalogoEspeciesId", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase"],
+			"_source": ["catalogoEspeciesId", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonNombre", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "colecciones"],
 			"query": {
 				"bool": {
 					"must": [
@@ -261,7 +263,7 @@ exports.getListFichas = function(size, page) {
 	qryObj = {
 		"size": totalRegs,
 		"from": initial,
-		"_source": ["catalogoEspeciesId", "autor", "taxonNombre", "taxonCompleto", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase"],
+		"_source": ["catalogoEspeciesId", "autor", "taxonNombre", "taxonCompleto", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "colecciones"],
 		"query": {
 			"bool": {
 				"must": [
@@ -332,7 +334,8 @@ exports.getRandomFichas = function(size, page) {
 			"imagenesExternas",
 			"taxonomia.reino",
 			"taxonomia.filo",
-			"taxonomia.clase"
+			"taxonomia.clase",
+			"colecciones"
 		],
 		"query": {
 			"bool": {
