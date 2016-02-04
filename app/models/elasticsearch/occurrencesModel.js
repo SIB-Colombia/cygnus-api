@@ -18,7 +18,7 @@ exports.getFicha = function(fichaId) {
 };
 
 // Search registers
-exports.searchFichas = function(searchText, size, page, order, sort) {
+exports.searchFichas = function(searchText, size, page, order, sort, department, taxonomy, collection) {
 	var initial = 0;
 	var totalRegs = 20;
 	var sortType = null;
@@ -37,11 +37,11 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 			direction = 'desc';
 		}
 	}
-	if((typeof searchText !== 'undefined')) {
+	if((typeof searchText !== 'undefined') && searchText !== '') {
 		qryObj = {
 			"size": totalRegs,
 			"from": initial,
-			"_source": ["catalogoEspeciesId", "taxonNombre", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "highlight", "colecciones"],
+			"_source": ["catalogoEspeciesId", "taxonNombre", "autor", "atributos.descripcionGeneral", "atributos.descripcionTaxonomica", "atributos.habitat", "taxonCompleto", "listaNombresComunes", "imagenes", "imagenesExternas", "taxonomia.reino", "taxonomia.filo", "taxonomia.clase", "highlight", "colecciones", "distribucionGeografica.departamentos"],
 			"query": {
 				"bool": {
 					"must": [
@@ -216,6 +216,175 @@ exports.searchFichas = function(searchText, size, page, order, sort) {
 		qryObj.sort = {};
 		qryObj.sort[sortType] = direction;
 	}
+
+	// Include filter for departments
+	if(typeof department !== 'undefined') {
+		if(typeof department === 'string') {
+			qryObj.query.bool.filter.bool.must.push({
+				match_phrase: {
+					"distribucionGeografica.departamentos.spanish": department
+				}
+			});
+		} else {
+			var currentMustElement = qryObj.query.bool.filter.bool.must.length;
+			qryObj.query.bool.filter.bool.must[currentMustElement] = {
+				bool: {
+					should: []
+				}
+			};
+			_.forEach(department, function(n,key) {
+				qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+					match_phrase: {
+						"distribucionGeografica.departamentos.spanish": n
+					}
+				});
+			});
+		}
+	}
+
+	// Include filter for collections
+	if(typeof collection !== 'undefined') {
+		if(typeof collection === 'string') {
+			qryObj.query.bool.filter.bool.must.push({
+				match_phrase: {
+					"colecciones.tipo.spanish": collection
+				}
+			});
+		} else {
+			var currentMustElement = qryObj.query.bool.filter.bool.must.length;
+			qryObj.query.bool.filter.bool.must[currentMustElement] = {
+				bool: {
+					should: []
+				}
+			};
+			_.forEach(collection, function(n,key) {
+				qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+					match_phrase: {
+						"colecciones.tipo.spanish": n
+					}
+				});
+			});
+		}
+	}
+
+	// Include filters for taxonomy
+	if(typeof taxonomy !== 'undefined') {
+		if(typeof taxonomy === 'string') {
+			switch(taxonomy.toLowerCase()) {
+				case 'insects':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.clase.spanish": "insecta"
+						}
+					});
+					break;
+				case 'birds':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.clase.spanish": "aves"
+						}
+					});
+					break;
+				case 'plants':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.reino.spanish": "plantae"
+						}
+					});
+					break;
+				case 'mammals':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.clase.spanish": "mammalia"
+						}
+					});
+					break;
+				case 'reptiles':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.clase.spanish": "reptilia"
+						}
+					});
+					break;
+				case 'amphibians':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.clase.spanish": "amphibia"
+						}
+					});
+					break;
+				case 'mushrooms':
+					qryObj.query.bool.filter.bool.must.push({
+						match_phrase: {
+							"taxonomia.reino.spanish": "fungi"
+						}
+					});
+					break;
+			}
+		} else {
+			var currentMustElement = qryObj.query.bool.filter.bool.must.length;
+			qryObj.query.bool.filter.bool.must[currentMustElement] = {
+				bool: {
+					should: []
+				}
+			};
+			_.forEach(taxonomy, function(n,key) {
+				switch(n.toLowerCase()) {
+					case 'insects':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.clase.spanish": "insecta"
+							}
+						});
+						break;
+					case 'birds':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.clase.spanish": "aves"
+							}
+						});
+						break;
+					case 'plants':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.reino.spanish": "plantae"
+							}
+						});
+						break;
+					case 'mammals':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.clase.spanish": "mammalia"
+							}
+						});
+						break;
+					case 'reptiles':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.clase.spanish": "reptilia"
+							}
+						});
+						break;
+					case 'amphibians':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.clase.spanish": "amphibia"
+							}
+						});
+						break;
+					case 'mushrooms':
+						qryObj.query.bool.filter.bool.must[currentMustElement].bool.should.push({
+							match_phrase: {
+								"taxonomia.reino.spanish": "fungi"
+							}
+						});
+						break;
+				}
+			});
+		}
+	}
+
+	//console.log(JSON.stringify(qryObj));
 
 	mySearchCall = elasticSearchClient.search('biodiversity', 'catalog', qryObj);
 	return mySearchCall;

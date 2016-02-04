@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 exports.getFichaDetailsOrSearchFichas = function(req, res) {
 	if(req.params._fichaid === "search") {
-		occurrences = occurrencesES.searchFichas(req.query.q, req.query.pagesize, req.query.page, req.query.order, req.query.sort);
+		occurrences = occurrencesES.searchFichas(req.query.q, req.query.pagesize, req.query.page, req.query.order, req.query.sort, req.query.department, req.query.taxonomy, req.query.collection);
 	} else if(req.params._fichaid === "random") {
 		occurrences = occurrencesES.getRandomFichas(req.query.pagesize, req.query.page);
 	} else {
