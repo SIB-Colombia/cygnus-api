@@ -26,7 +26,6 @@ exports.getCountFichas =  function(req, res) {
 };
 
 exports.listFichas = function(req, res) {
-	console.log("sooopas");
 	occurrences = occurrencesES.getListFichas(req.query.pagesize, req.query.page);
 	occurrences.exec(function(err, data){
 		res.jsonp(JSON.parse(data).hits);
