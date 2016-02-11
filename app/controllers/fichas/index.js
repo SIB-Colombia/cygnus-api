@@ -3,7 +3,7 @@ var _ = require('underscore');
 
 exports.getFichaDetailsOrSearchFichas = function(req, res) {
 	if(req.params._fichaid === "search") {
-		occurrences = occurrencesES.searchFichas(req.query.q, req.query.pagesize, req.query.page, req.query.order, req.query.sort, req.query.department, req.query.taxonomy, req.query.collection);
+		occurrences = occurrencesES.searchFichas(req.query.q, req.query.pagesize, req.query.page, req.query.order, req.query.sort, req.query.department, req.query.taxonomy, req.query.collection, req.query.facets);
 	} else if(req.params._fichaid === "random") {
 		occurrences = occurrencesES.getRandomFichas(req.query.pagesize, req.query.page);
 	} else {
@@ -13,7 +13,11 @@ exports.getFichaDetailsOrSearchFichas = function(req, res) {
 		if(JSON.parse(data).error) {
 			res.jsonp(JSON.parse(data));	
 		} else {
-			res.jsonp(JSON.parse(data).hits);
+			if(req.query.facets === 'true') {
+				res.jsonp(JSON.parse(data).aggregations);
+			} else {
+				res.jsonp(JSON.parse(data).hits);
+			}
 		}
 	});
 };

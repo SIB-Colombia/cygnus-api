@@ -18,7 +18,7 @@ exports.getFicha = function(fichaId) {
 };
 
 // Search registers
-exports.searchFichas = function(searchText, size, page, order, sort, department, taxonomy, collection) {
+exports.searchFichas = function(searchText, size, page, order, sort, department, taxonomy, collection, facets) {
 	var initial = 0;
 	var totalRegs = 20;
 	var sortType = null;
@@ -381,6 +381,388 @@ exports.searchFichas = function(searchText, size, page, order, sort, department,
 						break;
 				}
 			});
+		}
+	}
+
+	if(typeof facets !== 'undefined') {
+		if(facets === 'true') {
+			qryObj.size = 0;
+			qryObj.aggs = {
+				"groups": {
+					"filters": {
+						"filters": {
+							"insects": {
+								"terms": {
+									"taxonomia.clase.untouched": [
+										"insecta",
+										"Insecta"
+									]
+								}
+							},
+							"birds": {
+								"terms": {
+									"taxonomia.clase.untouched": [
+										"Aves",
+										"aves"
+									]
+								}
+							},
+							"plants": {
+								"terms": {
+									"taxonomia.reino.untouched": [
+										"Plantae",
+										"plantae"
+									]
+								}
+							},
+							"mammals": {
+								"terms": {
+									"taxonomia.clase.untouched": [
+										"Mammalia",
+										"mammalia"
+									]
+								}
+							},
+							"reptiles": {
+								"terms": {
+									"taxonomia.clase.untouched": [
+										"Reptilia",
+										"reptilia"
+									]
+								}
+							},
+							"amphibians": {
+								"terms": {
+									"taxonomia.clase.untouched": [
+										"Amphibia",
+										"amphibia"
+									]
+								}
+							},
+							"mushrooms": {
+								"terms": {
+									"taxonomia.reino.untouched": [
+										"Fungi",
+										"fungi"
+									]
+								}
+							},
+							"paramo": {
+								"terms": {
+									"colecciones.tipo.untouched": [
+										"Paramo",
+										"Páramo",
+										"paramo",
+										"páramo"
+									]
+								}
+							},
+							"humedal": {
+								"terms": {
+									"colecciones.tipo.untouched": [
+										"Humedal",
+										"humedal"
+									]
+								}
+							},
+							"invasora": {
+								"terms": {
+									"colecciones.tipo.untouched": [
+										"Invasora",
+										"invasora"
+									]
+								}
+							},
+							"amazonas": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Amazonas",
+										"amazonas"
+									]
+								}
+							},
+							"antioquia": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Antioquia",
+										"antioquia"
+									]
+								}
+							},
+							"arauca": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Arauca",
+										"arauca"
+									]
+								}
+							},
+							"atlantico": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Atlántico",
+										"atlántico",
+										"Atlantico",
+										"atlantico"
+									]
+								}
+							},
+							"bolivar": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Bolívar",
+										"bolívar",
+										"Bolivar",
+										"bolivar"
+									]
+								}
+							},
+							"boyaca": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Boyacá",
+										"boyacá",
+										"Boyaca",
+										"boyaca"
+									]
+								}
+							},
+							"caldas": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Caldas",
+										"caldas"
+									]
+								}
+							},
+							"caqueta": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Caquetá",
+										"caquetá",
+										"Caqueta",
+										"caqueta"
+									]
+								}
+							},
+							"casanare": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Casanare",
+										"casanare"
+									]
+								}
+							},
+							"cauca": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Cauca",
+										"cauca"
+									]
+								}
+							},
+							"cesar": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Cesar",
+										"cesar"
+									]
+								}
+							},
+							"choco": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Chocó",
+										"chocó",
+										"Choco",
+										"choco"
+									]
+								}
+							},
+							"cordoba": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Córdoba",
+										"córdoba",
+										"Cordoba",
+										"cordoba"
+									]
+								}
+							},
+							"cundinamarca": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Cundinamarca",
+										"cundinamarca"
+									]
+								}
+							},
+							"bogota": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Bogotá D.C.",
+										"bogotá D.C.",
+										"Bogota D.C.",
+										"bogota D.C."
+									]
+								}
+							},
+							"guainia": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Guainía",
+										"guainía",
+										"Guainia",
+										"guainia"
+									]
+								}
+							},
+							"guajira": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Guajira",
+										"guajira"
+									]
+								}
+							},
+							"guaviare": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Guaviare",
+										"guaviare"
+									]
+								}
+							},
+							"huila": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Huila",
+										"huila"
+									]
+								}
+							},
+							"magdalena": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Magdalena",
+										"magdalena"
+									]
+								}
+							},
+							"meta": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Meta",
+										"meta"
+									]
+								}
+							},
+							"narino": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Nariño",
+										"nariño",
+										"Narino",
+										"narino"
+									]
+								}
+							},
+							"norteSantander": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Norte de Santander",
+										"norte de santander"
+									]
+								}
+							},
+							"santander": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Santander",
+										"santander"
+									]
+								}
+							},
+							"putumayo": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Putumayo",
+										"putumayo"
+									]
+								}
+							},
+							"quindio": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Quindío",
+										"quindío",
+										"Quindio",
+										"quindio"
+									]
+								}
+							},
+							"risaralda": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Risaralda",
+										"risaralda"
+									]
+								}
+							},
+							"sanAndres": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"San Andrés y Providencia",
+										"san Andres y providencia"
+									]
+								}
+							},
+							"sucre": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Sucre",
+										"sucre"
+									]
+								}
+							},
+							"tolima": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Tolima",
+										"tolima"
+									]
+								}
+							},
+							"valleCauca": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Valle del Cauca",
+										"valle del cauca"
+									]
+								}
+							},
+							"vaupes": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Vaupés",
+										"vaupés",
+										"Vaupes",
+										"vaupes"
+									]
+								}
+							},
+							"vichada": {
+								"terms": {
+									"distribucionGeografica.departamentos.untouched": [
+										"Vichada",
+										"vichada"
+									]
+								}
+							}
+						}
+					}
+				}
+			};
 		}
 	}
 
