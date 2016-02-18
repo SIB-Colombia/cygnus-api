@@ -16,7 +16,11 @@ exports.getFichaDetailsOrSearchFichas = function(req, res) {
 			if(req.query.facets === 'true') {
 				res.jsonp(JSON.parse(data).aggregations);
 			} else {
-				res.jsonp(JSON.parse(data).hits);
+				if(req.params._fichaid === "search" || req.params._fichaid === "random") {
+					res.jsonp(JSON.parse(data).hits);
+				} else {
+					res.jsonp(JSON.parse(data).hits.hits[0]._source);
+				}
 			}
 		}
 	});
